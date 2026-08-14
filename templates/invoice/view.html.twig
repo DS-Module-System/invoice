@@ -1,0 +1,54 @@
+{% extends 'base.html.twig' %}
+
+{% import 'core/default_templates/data_table_macro.html.twig' as data_table %}
+
+{% block pageTitle %}
+    <h4 class="page-title">{{ knp_current_item.name|dtrans ~ ' - ' ~ invoice.number ~ ' - ' ~'invoice.preview'|dtrans }}
+    </h4>
+{% endblock %}
+
+{% block breadcrumb %}
+    {% for breadcrumb_item in knp_menu_get_breadcrumbs_array(knp_current_item) %}
+        {% if breadcrumb_item.label != "root" %}
+            {% if not loop.last %}
+                <li class="breadcrumb-item">{{ breadcrumb_item.label|dtrans }}</li>
+            {% else %}
+                <li class="breadcrumb-item active">
+                    {{ breadcrumb_item.label|dtrans ~ ' / ' ~ invoice.number ~ ' / ' ~ 'invoice.preview'|dtrans }}</li>
+            {% endif %}
+        {% endif %}
+    {% endfor %}
+{% endblock %}
+
+{% block body %}
+    <div class="row mb-2 pt-2 pb-2">
+        <div class="col-12">
+            <a href="{{ path('invoice_list') }}" class="btn btn-light ds-cms-back-btn" data-return-to-module-list>
+                <i class="mdi mdi-arrow-left-bold me-1"></i>{{ 'core.module.backBtnTitle'|dtrans }}
+            </a>
+        </div>
+    </div>
+    {% include 'invoice/_tabs.html.twig' %}
+
+    {% if invoice %}
+        <div class="row">
+            <div class="col-md-12">
+                <div class="card">
+                   <div class="row">
+                            <div class="card p-0">
+                                <div class="card-body p-0">
+                                    <iframe class="client-iframe" style="height: 1500px; width: 100%" src="{{path('invoice_preview', {'id': invoice.id})}}"></iframe>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+
+    {% endif %}
+
+{% endblock %}

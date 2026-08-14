@@ -1,0 +1,172 @@
+{% extends 'base.html.twig' %}
+
+{% import 'core/default_templates/form_search.html.twig' as form_search %}
+{% import 'core/default_templates/data_table_macro.html.twig' as data_table %}
+
+{% block body %}
+
+    {{ form_search.form_search(form, ["number", "fromIssueDate", "toIssueDate", "priceNet"]) }}
+
+    <div class="row">
+        <div class="col-12">
+            <div class="card">
+                <div class="card-body">
+                    <div class="row mb-2 align-items-center">
+                        <div class="col-sm-4">
+                            <div class="dropdown" style="display: inline-block">
+                                <a class="btn btn-primary" href="{{ path('invoice_create') }}">
+                                    <i class="mdi mdi-plus-circle"></i> {{ 'core.module.addRecordBtnTitle'|dtrans }}
+                                </a>
+                            </div>
+                            <div class="dropdown" style="display: inline-block">
+                                <a class="btn btn-primary" href="{{ path('invoice_proforma_create') }}">
+                                    <i class="mdi mdi-plus-circle"></i> {{ 'core.module.addProformaTitle'|dtrans }}
+                                </a>
+                            </div>
+
+{#                            <form method="post" target="_blank" style="display: inline">#}
+                                <a class="btn btn-secondary" target="_blank" href="{{ path(app.request.get('_route'), {'export': 1}|merge(app.request.get('_route_params')|merge(app.request.query.all))) }}">Export</a>
+{#                            </form>#}
+                        </div>
+                        <div class="col-sm-4 text-sm-center" ><label>{{ 'core.module.recordTitle'|dtrans }}: {{ rows.getTotalItemCount() }}</label></div>
+                        <div class="col-sm-4 text-end">
+                            {{ data_table.item_per_page(rows.route, rows.query) }}
+                        </div><!-- end col-->
+                    </div>
+
+                    <div class="table-responsive mb-3">
+                        <table class="table ds-table-sm w-100 dt-responsive nowrap table-bordered" data-table-sticky="">
+                            <thead class="thead-light">
+                            <tr>
+                                {{ data_table.th("core.module.actionTitle") }}
+                                {{ data_table.th("invoice.documentType"|dtrans) }}
+                                {{ data_table.th("invoice.isPaid"|dtrans) }}
+                                {{ data_table.th("invoice.isPosted"|dtrans) }}
+                                {{ data_table.th("invoice.client") }}
+                                {{ data_table.th("invoice.number"|dtrans) }}
+                                {{ data_table.th("invoice.issueDate"|dtrans, false, 'issueDate') }}
+                                {{ data_table.th("invoice.createdAt"|dtrans) }}
+                                {{ data_table.th("invoice.subTotalPrice"|dtrans) }}
+                                {{ data_table.th("invoice.promotionPrice"|dtrans) }}
+                                {{ data_table.th("invoice.taxBasePrice"|dtrans) }}
+                                {{ data_table.th("invoice.ddsPercentage"|dtrans) }}
+                                {{ data_table.th("invoice.totalPrice"|dtrans) }}
+                                {{ data_table.th("invoice.note"|dtrans) }}
+                                {{ data_table.th("invoice.paymentMethod"|dtrans) }}
+                                {{ data_table.th("invoice.ddsOption"|dtrans) }}
+                            </tr>
+                            </thead>
+                            <tbody>
+                            {% for row in rows %}
+                                <tr>
+                                    <td>
+                                        <div class="btn-group">
+                                            <button type="button" class="btn btn-primary dropdown-toggle" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="true"><i class="ri-menu-line me-1"></i>{{'core.module.actions'|dtrans}}</button>
+                                            <div class="dropdown-menu" data-popper-placement="bottom-start" style="position: absolute; inset: 0px auto auto 0px; margin: 0px; transform: translate(0px, 40px);">
+                                                <a class="dropdown-item" href="{{ path('invoice_view', {"id": row.id}) }}" title="{{ 'invoice.actions.preview'|dtrans }}">
+                                                    {{ 'invoice.actions.preview'|dtrans }}
+                                                </a>
+                                                <a class="dropdown-item" href="{{ path('invoice_edit', {"id": row.id}) }}" title="{{ 'core.module.editBtnTitle'|dtrans }}">
+                                                    {{ 'core.module.editBtnTitle'|dtrans }}
+                                                </a>
+                                                {% if row.type is constant('App\\Enum\\Invoice\\InvoiceType::Invoice') %}
+                                                    <a class="dropdown-item" href="{{ path('invoice_create', {"invoiceId": row.id, 'type': creditTypeId}) }}" title="{{ 'core.module.editBtnTitle'|dtrans }}">
+                                                        {{ 'invoice.issueCreditNote'|dtrans }}
+                                                    </a>
+                                                    <a class="dropdown-item" href="{{ path('invoice_create', {"invoiceId": row.id, 'type': debitTypeId}) }}"  title="{{ 'core.module.editBtnTitle'|dtrans }}">
+                                                        {{ 'invoice.issueDebitNote'|dtrans }}
+                                                    </a>
+                                                {% endif %}
+                                                <!-- Small modal -->
+                                                <a class="dropdown-item" href="#" data-bs-toggle="modal" data-bs-target="#invoice-bs-example-modal-sm-{{ row.id }}">Print</a>
+                                            </div>
+                                        </div>
+                                        <div class="modal fade" id="invoice-bs-example-modal-sm-{{ row.id }}" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel" aria-hidden="true">
+                                            <div class="modal-dialog modal-sm">
+                                                <div class="modal-content">
+                                                    <div class="modal-header">
+                                                        <h4 class="modal-title" id="mySmallModalLabel">Print</h4>
+                                                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-hidden="true"></button>
+                                                    </div>
+                                                    <form target="_blank" method="post" action="{{ path('invoice_download', {'download': 1, "id": row.id}) }}">
+                                                        <div class="modal-body">
+                                                            <div class="mt-2">
+                                                                <div>Тип</div>
+                                                                <div>
+                                                                    <div>
+                                                                        <div class="form-check form-check-inline">
+                                                                            <input type="checkbox" name="isOriginal" class="form-check-input" id="isOriginal-{{ row.id }}">
+                                                                            <label class="form-check-label" for="isOriginal-{{ row.id }}">Оригинал</label>
+                                                                        </div>
+                                                                        <div class="form-check form-check-inline">
+                                                                            <input type="checkbox" name="isCopy" class="form-check-input" id="isCopy-{{ row.id }}">
+                                                                            <label class="form-check-label" for="isCopy-{{ row.id }}">Копие</label>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        <div class="modal-footer">
+                                                            <button type="button" class="btn btn-light" data-bs-dismiss="modal">Close</button>
+                                                            <button type="submit" class="btn btn-primary"  data-bs-dismiss="modal">Print</button>
+                                                        </div>
+                                                    </form>
+                                                </div><!-- /.modal-content -->
+                                            </div><!-- /.modal-dialog -->
+                                        </div><!-- /.modal -->
+                                    </td>
+                                    <td>                    
+                                        {% if row.type is constant('App\\Enum\\Invoice\\InvoiceType::Invoice') %}
+                                            {{ 'invoice.invoice'|dtrans }}
+                                        {% elseif row.type is constant('App\\Enum\\Invoice\\InvoiceType::CreditInvoice') %}
+                                            {{ 'invoice.creditNote'|dtrans }}
+                                        {% elseif row.type is constant('App\\Enum\\Invoice\\InvoiceType::DebitInvoice') %}
+                                           {{ 'invoice.debitNote'|dtrans }}
+                                        {% elseif row.type is constant('App\\Enum\\Invoice\\InvoiceType::ProformaInvoice') %}
+                                           {{ 'invoice.proformaInvoice'|dtrans }}
+                                        {% endif %}
+                                    </td>
+                                    <td>                                  
+                                        {% if row.isPaid is constant('App\\Enum\\Invoice\\InvoicedStatus::Yes') %}
+                                            {{ 'invoice.isPaid'|dtrans }}
+                                        {% elseif row.isPaid is constant('App\\Enum\\Invoice\\InvoicedStatus::No')%}
+                                            {{ 'invoice.unpaid'|dtrans }}
+                                        {% elseif row.isPaid is constant('App\\Enum\\Invoice\\InvoicedStatus::Part')%}
+                                            {{ 'invoice.partially'|dtrans }}
+                                        {% endif %}
+                                    </td>
+                                    <td>{{ row.isPosted ? 'invoice.isPosted'|dtrans : 'invoice.unposted'|dtrans }}</td>
+                                    <td>{{ row.client ? row.client.name : "" }}</td>
+                                    <td>{{ row.number }}</td>
+                                    <td>{{ row.issueDate is empty ? "" : row.issueDate|date(date_format) }}</td>
+                                    <td>{{ row.createdAt is empty ? "" : row.createdAt|date(date_format) }}</td>
+                                    <td class="text-nowrap text-end">{{ row.subTotalPrice|number_format(2, '.', '') }}</td>
+                                    <td class="text-nowrap text-end">{{ row.promotionPrice|number_format(2, '.', '') }}</td>
+                                    <td class="text-nowrap text-end">{{ row.taxBasePrice|number_format(2, '.', '') }}</td>
+                                    <td class=" text-end">{{ row.ddsPercentage }}</td>
+                                    <td class="text-nowrap text-end">{{ row.totalPrice|number_format(2, '.', '') }}</td>
+                                    <td>
+                                        {% if app.request.locale == 'en' %}
+                                            {{ row.noteEng|nl2br }}
+                                        {% elseif app.request.locale == 'bg' %}
+                                            {{ row.note|nl2br }}
+                                        {% else %}
+                                            {{ row.note|nl2br }}
+                                        {% endif %}
+                                    </td>
+                                    </td>
+                                    <td>{{ row.paymentMethod.labelInTable|dtrans }}</td>
+                                    <td>{{ row.ddsOption.labelInTable|dtrans }}</td>
+                                </tr>
+                            {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+                    {{ knp_pagination_render(rows) }}
+                </div> <!-- end card-body-->
+            </div> <!-- end card-->
+        </div> <!-- end col -->
+    </div>
+
+{% endblock %}
+

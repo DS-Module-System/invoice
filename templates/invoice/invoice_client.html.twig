@@ -1,0 +1,101 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}{{ site_name ~ ' - ' ~ clientInvoiceEmailLog.emailSubject }} {% endblock %}
+
+{% block body %}
+    {% if lockedLink %}
+        <div class="modal static-modal" tabindex="-1">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title">{{ 'invoice.lockedLinkTitle'|dtrans }}</h5>
+                    </div>
+                    <div class="modal-body">
+                        <div class="locked-link-color">
+                            <i class="mdi mdi-file-lock-outline"></i>
+                            <span class="locked-link-color">{{ 'invoice.lockedLinkContent'|dtrans }}</span>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <p>{{ 'invoice.lockedLinkFooter'|dtrans ~ clientInvoiceEmailLog.clientAddress.email ~ ', ' ~ 'invoice.lockedLinkValid'|dtrans }}
+                        </p>
+                        <form method="POST">
+                            <button type="submit" class="btn btn-light" name="newLink"
+                                    value="1">{{ 'invoice.lockedLinkNewLink'|dtrans }}</button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    {% else %}
+
+
+        <div class="mb-3">Статус: <strong>
+        {# {{ clientInvoiceEmailLog.invoice.status.label }} #}
+        </strong></div>
+        <div class="row">
+            <div class="card p-0 mb-1">
+                <div class="card-body p-0">
+                    <iframe class="client-iframe"
+                            src="{{ path('invoice_preview_by_hash', {'hash': app.request.get('hash')}) }}"></iframe>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            {% if invoiceActionStatus == 'sent' %}
+                <div class="col-12 mb-2 text-info">* за да свалите pdf файла трябва първо да приемете документа</div>
+                <div class="col-12 col-sm-6 text-center text-sm-start">
+                    <form method="POST">
+                        <button type="submit" name="approve" class="btn btn-success mb-3"
+                                value="1">{{ 'invoice.approveBtn'|dtrans }}</button>
+                    </form>
+                </div>
+                <div class="col-12 col-sm-6 text-center text-sm-end">
+                    <form method="POST">
+
+                        <!-- Danger Header Modal -->
+                        <button type="button" class="btn btn-danger reject-button" data-bs-toggle="modal"
+                                data-bs-target="#danger-header-modal">{{ 'invoice.disapproveBtn'|dtrans }}</button>
+                        <div id="danger-header-modal" class="modal fade" tabindex="-1" role="dialog"
+                             aria-labelledby="danger-header-modalLabel" aria-hidden="true">
+                            <div class="modal-dialog">
+                                <div class="modal-content">
+                                    <div class="modal-header modal-colored-header bg-danger">
+                                        <h4 class="modal-title"
+                                            id="danger-header-modalLabel">{{ 'invoice.disapproveBtn'|dtrans }}</h4>
+                                        <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"
+                                                aria-hidden="true"></button>
+                                    </div>
+                                    <div class="modal-body">
+                            <textarea class="form-control ds-form-control mb-2" rows="6" cols="30" required="required"
+                                      placeholder="{{ 'invoice.objectionReturnPlaceholder'|dtrans }}"
+                                      name="objection"></textarea>
+                                    </div>
+                                    <div class="modal-footer">
+                                        <button type="button" class="btn btn-light"
+                                                data-bs-dismiss="modal">{{ 'invoice.objectionCancelBtn'|dtrans }}</button>
+                                        <button class="btn btn-danger"
+                                                name="disapprove">{{ 'invoice.objectionReturnBtn'|dtrans }}</button>
+                                    </div>
+                                </div><!-- /.modal-content -->
+                            </div><!-- /.modal-dialog -->
+                        </div><!-- /.modal -->
+
+                    </form>
+                </div>
+            {% elseif invoiceActionStatus == 'accepted' %}
+                <div class="col-12 col-sm-6 text-sm-start">
+                    <form method="POST"
+                          action="{{ path('invoice_download_by_hash', {'hash': app.request.get('hash'), 'download': 1}) }}"
+                          target='_blank'>
+                        <input type="hidden" name="token" value="{{ csrf_token('download-invoice') }}"/>
+                        <button class="btn btn-info" type="submit" name="download">
+                            <i class="material-icons"></i>{{ 'invoice.downloadBtn'|dtrans }}
+                        </button>
+                    </form>
+                </div>
+            {% elseif invoiceActionStatus == 'refused' %}
+            {% endif %}
+        </div>
+    {% endif %}
+{% endblock %}

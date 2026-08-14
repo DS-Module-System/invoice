@@ -1,0 +1,230 @@
+{% import 'core/default_templates/form_table_macro.html.twig' as form_table %}
+
+{% macro invoiceItemForm(form) %}
+    <td class="invoice-item-td-action">
+        <button type="button" class="btn btn-info btn-sm invoice-item-move-row" title="{{'core.module.flow.row'|dtrans}}">
+            <i class="mdi mdi-swap-vertical"></i>
+        </button>
+        <button type="button" class="btn btn-danger btn-sm invoice-item-remove-row" title="{{'core.module.delete.row'|dtrans}}">
+            <i class="mdi mdi-close"></i>
+        </button>
+    </td>
+    <td class="invoice-item-td-desc">
+        <div class="form-group">
+            <div class="invoice-item-text-bg">
+                <label style="width: calc(100% - 30px);">
+                    {% if app.request.locale == 'en' %}
+                        {{ form_widget(form.nameEng) }}
+                    {% else  %}
+                        {{ form_widget(form.name)}}
+                    {% endif %}
+                </label>
+            </div>
+            {{ form_widget(form.ord) }}
+            <div class="invoice-item-error invalid-feedback">
+                {% if app.request.locale == 'en' %}
+                    {% if form.nameEng.vars.valid == false %}
+                        <div><strong>{{ form.nameEng.vars.label|dtrans }}:</strong></div>
+                        <div class="ps-2">
+                            {{ form_errors(form.nameEng) }}
+                        </div>
+                    {% endif %}
+                {% else  %}
+                    {% if form.name.vars.valid == false %}
+                        <div><strong>{{ form.name.vars.label|dtrans }}:</strong></div>
+                        <div class="ps-2">
+                            {{ form_errors(form.name) }}
+                        </div>
+                    {% endif %}
+                {% endif %}
+
+
+                {% if form.quantity.vars.valid == false %}
+                    <div><strong>{{ form.quantity.vars.label|dtrans }}:</strong></div>
+                    <div class="ps-2">
+                        {{ form_errors(form.quantity) }}
+                    </div>
+                {% endif %}
+            </div>
+        </div>
+    </td>
+    <td class="invoice-item-td-qty">
+        {{ form_widget(form.quantity) }} x {{ form_widget(form.measure) }}
+        <div style="max-width: 100px; white-space: break-spaces;"></div>
+    </td>
+    <td class="invoice-item-td-unit-price">
+        {{ form_widget(form.unitPrice)|replace({',': '.'})|raw }}
+    </td>
+    <td class="invoice-item-td-unit-total">
+        <div class="show-number"></div>
+        {{ form_widget(form.total)|replace({',': '.'})|raw }}
+    </td>
+{% endmacro %}
+
+{% import _self as formMacros %}
+
+<div class="mt-3 mb-2 {% if not form.vars.valid %}was-validated{% endif %}">
+    {% include 'core/default_templates/form_main_error.html.twig' %}
+
+    <div class="row">
+        <div class="col-12 col-md-6">
+            {% if row is defined %}
+                <div class="form-group ds-form-group mb-3">
+                    <label>{{ 'invoice.typeDocument'|dtrans }}</label>
+                    <div class="form-control disabled">{{ row.type.getLabelInTable()|dtrans }}</div>
+                </div>
+            {% endif %}
+            {{ form_table.tr(form.number) }}
+            {{ form_table.tr(form.issueDate) }}
+            {{ form_table.tr(form.taxDate) }}
+        
+        </div>
+        <div class="col-12 col-md-6">
+            {{ form_table.tr(form.client) }}
+            <div>
+                <a class="api-new link-btn do-new list-container-btn btn btn-primary mb-2"
+                   data-form-url="{{ path('client_api_form_add_client') }}">
+                    <i class="mdi mdi-plus-circle me-1"></i>{{ 'invoice.addClientBtnTitle'|dtrans }}
+                </a>
+            </div>
+            <div id="clientCompareData"></div>
+
+            {% if row.id is defined and row.id > 0 %}
+                <button class="btn btn-sm btn-info ms-1 mb-2" type="button"
+                        data-bs-toggle="collapse" data-bs-target="#clientSaveData"
+                        aria-expanded="false" aria-controls="clientSaveData">
+                    {{ 'invoice.showInvoiceClientData'|dtrans }}
+                </button>
+
+                <div class="collapse" id="clientSaveData">
+
+                    <fieldset style="border: 1px solid black; padding: 5px 10px; margin-bottom: 20px; ">
+                        <legend>{{ 'invoice.invoiceClientDataSaved'|dtrans }}</legend>
+                        <div class="client-save-data">
+                            {{ form_table.tr(form.name) }}
+                            {{ form_table.tr(form.countryCode) }}
+                                {{ form_table.tr(form.eek) }}
+                            <div data-client-type="company">
+                                {# <div class="mb-3"><button type="button" id="getCompanyData" class="btn btn-sm btn-secondary">{{ 'client.getCompanyData'|dtrans }}</button></div> #}
+                                {{ form_table.tr(form.vat) }}
+                                {{ form_table.tr(form.responsiblePerson) }}
+                            </div>
+                            {{ form_table.tr(form.address) }}
+                        </div>
+                        <div class="client-save-data-btn">
+                            {# <button class="btn btn-sm btn-info ms-1 mb-2" type="button" id="getInvoiceClientDataBtn"
+                                data-form-url="{{ path('api_client_get_client_data_for_invoice') }}"> 
+                                {{ 'invoice.getClientData'|dtrans}} 
+                            </button> #}
+                            <button class="btn btn-sm btn-info ms-1 mb-2" type="button"
+                                id="getInvoiceClientDataBtn"
+                                data-form-url="{{ path('client_api_client_get_client_data_for_invoice', {'clientId': '__CLIENT_ID__'}) }}">
+                            {{ 'invoice.getClientData'|dtrans }}
+                        </button>
+
+                        </div>
+                    </fieldset>
+                </div>
+            {% endif %}
+        </div>
+
+        <div class=" mb-3">
+            <table class="table-sm ds-table-sm w-100 dt-responsive nowrap table-bordered">
+                <thead class="thead-light">
+                <tr>
+                    <th class="invoice-item-td-action">{{ 'core.module.actionTitle'|dtrans }}</th>
+                    <th class="invoice-item-td-desc">{{ 'invoice.description'|dtrans }}</th>
+                    <th class="invoice-item-td-qty">{{ 'invoice.qty'|dtrans }}</th>
+                    <th class="invoice-item-td-unit-price">{{ 'invoice.pricePerItem'|dtrans }}</th>
+                    <th class="invoice-item-td-total">{{ 'invoice.value'|dtrans }}</th>
+                </tr>
+                </thead>
+                <tbody class="invoiceItemPrototype invoiceItems"
+                        data-index="{{ form.invoiceItems|length > 0 ? form.invoiceItems|last.vars.name + 1 : 0 }}"
+                        data-prototype="{{ formMacros.invoiceItemForm(form.invoiceItems.vars.prototype)|e('html_attr') }}">
+                {% for invoiceItem in form.invoiceItems %}
+                    <tr>{{ formMacros.invoiceItemForm(invoiceItem) }}</tr>
+                {% endfor %}
+                
+                </tbody>
+                <tfoot>
+                    <tr>
+                        <td colspan="2" rowspan="3" style="vertical-align: top!important;">
+                            <div>
+                                <button type="button" class="btn btn-sm btn-primary add_item_link_invoice" data-collection-holder-class="invoiceItemPrototype" title="{{'core.module.add.row'|dtrans}}">
+                                    <i class="mdi mdi-plus"></i>
+                                    {{'core.module.add.row'|dtrans}}
+                                </button>
+                            </div>
+                        </td>
+                        <td colspan="2" class="text-end">{{ 'invoice.priceWithoutDiscount'|dtrans }}</td>
+                        <td class="text-end">
+                            <div class="show-number"></div>
+                            {{ form_widget(form.subTotalPrice)|replace({',': '.'})|raw }}
+                        </td>
+                    </tr>
+                    <tr>
+                        <td colspan="2" class="text-end">
+                            {{ 'invoice.discount'|dtrans }}
+                            <div class="text-nowrap">{{ form_widget(form.promotionValue)|replace({',': '.'})|raw }} {{ form_widget(form.promotionType) }}</div>
+                        </td>
+                        <td class="text-end"><div class="show-number"></div>
+                            {{ form_widget(form.promotionPrice)|replace({',': '.'})|raw }}
+                        </td>
+                    </tr>
+                    <tr>
+                        <td colspan="2" class="text-end">{{ 'invoice.basePrice'|dtrans }}</td>
+                        <td class="text-end">
+                            <div class="show-number"></div>
+                            {{ form_widget(form.taxBasePrice)|replace({',': '.'})|raw }}
+                        </td>
+                    </tr>
+                    <tr>
+                        <td colspan="2">
+                            {{ form_label(form.ddsOption) }}
+                            {{ form_widget(form.ddsOption) }}
+                        </td>
+                        <td colspan="2" class="text-end text-nowrap">
+                            {{ 'invoice.vat'|dtrans }} {{ form_widget(form.ddsPercentage)|replace({',': '.'})|raw }} %
+
+                            <div class="invalid-feedback" style="display: block">
+                                {{ form_errors(form.ddsPercentage) }}
+                            </div>
+                        </td>
+                        <td class="text-end">
+                            <div class="show-number"></div>
+                            {{ form_widget(form.ddsPrice)|replace({',': '.'})|raw }}
+                        </td>
+                    </tr>
+                    <tr>
+                        <td colspan="2"></td>
+                        <td colspan="2" class="text-end">{{ 'invoice.priceForPay'|dtrans }}</td>
+                        <td class="text-end">
+                            <div class="show-number"></div>
+                            {{ form_widget(form.totalPrice)|replace({',': '.'})|raw }}
+                        </td>
+                    </tr>
+                </tfoot>
+            </table>
+        </div>
+
+        <div class="col-12">
+            {{ form_table.tr(form.publisher) }}
+            
+            {% if app.request.locale == 'en' %}
+                {{ form_table.tr(form.noteEng) }}
+            {% elseif app.request.locale == 'bg' %}
+                {{ form_table.tr(form.note) }}
+            {% else %}
+                {{ form_table.tr(form.note) }}
+            {% endif %}
+            {% if row.type.label != 'proformaInvoice' %}
+                {{ form_table.tr(form.isPosted) }}
+                {{ form_table.tr(form.isPaid) }}
+            {% endif %}
+            {{ form_table.tr(form.paymentMethod) }}
+            {{ form_table.tr(form.bankAccount) }}
+        </div>
+
+    </div>
+</div>

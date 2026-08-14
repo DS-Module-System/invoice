@@ -1,0 +1,37 @@
+{% extends 'base.html.twig' %}
+
+{% import 'core/default_templates/form_table_macro.html.twig' as form_table %}
+
+{% set form_btns = form_table.btns('dashboard', form) %}
+
+{% block body %}
+
+    <h3>{{ 'invoice.settingCompanyInfo.companyData'|dtrans }}</h3>
+
+    {{ form_start(form, {'attr': {'novalidate': 'novalidate'}}) }}
+    {{ form_row(form._token) }}
+    <div class="row bg-white border p-2">
+        {{ form_btns }}
+        <div class="col-12">
+            {% if companyLogo is not empty %}
+                <div class="mt-1">
+                    <a class="btn-sm btn btn-primary" target="_blank" href="/invoice/setting_files/{{ companyLogo }}">Виж логото</a> |
+                    <button type="submit" name="removeLogo" value="1" class="btn-sm btn btn-secondary">Премахни лого</button>
+                </div>
+            {% endif %}
+            {{ form_table.tr(form.companyLogo) }}
+            {{ form_table.tr(form.companyName) }}
+            {{ form_table.tr(form.country) }}
+            {{ form_table.tr(form.city) }}
+            {{ form_table.tr(form.address) }}
+            {{ form_table.tr(form.eek) }}
+            {{ form_table.tr(form.ddsNumber) }}
+            {{ form_table.tr(form.mol) }}
+        </div>
+        {{ form_btns }}
+    </div>
+
+    {{ form_end(form, {'render_rest': false}) }}
+
+{% endblock %}
+

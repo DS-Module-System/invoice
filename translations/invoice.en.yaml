@@ -1,0 +1,213 @@
+# Invoice Module Translations
+leftMenu.invoices: Invoices
+title: Invoice
+number: Invoice Number
+date: Invoice Date
+dueDate: Due Date
+customer: Customer
+amount: Amount
+total: Total
+subtotal: Subtotal
+tax: Tax
+discount: Discount
+status: Status
+description: Description
+items: Items
+quantity: Quantity
+unitPrice: Unit Price
+lineTotal: Line Total
+client: Client
+addClientBtnTitle: Add Client
+hourLabel: Hour
+unitLabel: pcs
+choose: Please choose
+
+# Status values
+statusValues:
+  draft: Draft
+  sent: Sent
+  paid: Paid
+  overdue: Overdue
+  cancelled: Cancelled
+
+# Actions
+actions:
+  create: Create Invoice
+  edit: Edit Invoice
+  delete: Delete Invoice
+  send: Send Invoice
+  markPaid: Mark as Paid
+  download: Download PDF
+  preview: Preview
+
+# Form labels
+form:
+  customerSelect: Select Customer
+  addItem: Add Item
+  removeItem: Remove Item
+  calculateTotal: Calculate Total
+  
+# Messages
+messages:
+  created: Invoice created successfully
+  updated: Invoice updated successfully
+  deleted: Invoice deleted successfully
+  sent: Invoice sent successfully
+  paid: Invoice marked as paid
+  notFound: Invoice not found
+  cannotDelete: Cannot delete invoice - it has been sent
+
+# Page titles and headings
+createInvoiceTitle: Create Invoice
+createCreditTitle: Create Credit Note
+createDebitTitle: Create Debit Note
+editInvoiceTitle: Edit Invoice
+
+# Document types and statuses
+typeDocument: Document Type
+invoice: Invoice
+creditNote: Credit Note
+debitNote: Debit Note
+proformaInvoice: Proforma Invoice
+original: Original
+copy: Copy
+
+# Table headers and form fields
+qty: Qty
+pricePerItem: Price per Item
+value: Value
+priceWithoutDiscount: Price without Discount
+basePrice: Base Price
+priceForPay: Total Amount
+vatNumber: VAT Number
+vatBase: VAT Base
+item: Item
+unitCost: Unit Cost
+price: Price
+toInvoice: To Invoice
+issueDate: Issue Date
+taxDate: Tax Date
+createdAt: Created At
+subTotalPrice: Subtotal Price
+promotionPrice: Promotion Price
+taxBasePrice: Tax Base Price
+ddsPercentage: VAT Percentage
+totalPrice: Total Price
+note: Note
+publisher: Publisher
+bankAccount: Bank Account
+vat: VAT
+paymentMethod: Payment Method
+InvoicePaymentMethod:
+  paymentMethodBank: Bank Transfer
+  cash: Cash
+ddsOption: VAT Option
+issueCreditNote: Issue Credit Note
+issueDebitNote: Issue Debit Note
+
+# Email functionality
+sendEmailBtn: Send Email
+cancelEmailBtn: Cancel Email
+
+# Print and export
+printTitle: Print
+exportTitle: Export
+languages: Languages
+bulgarian: Bulgarian
+english: English
+documentType: Type
+includeBgnPrice: Include prices in BGN
+includeReport: Include report file
+
+# Bank details
+bankDetails: Bank Details
+bank: Bank
+
+# Client information
+billTo: Bill To
+issuedBy: Issued By
+amountInWords: Amount in Words
+showInvoiceClientData: Show invoice client data
+getClientData: Get Client Data
+invoiceClientDataSaved: Invoice Client Data Saved
+
+# Actions and buttons
+close: Close
+print: Print
+yes: Yes
+no: No
+
+# Payment instructions
+paymentInstructionsBg: Please make payments via bank transfer to the account listed below, ensuring that you include the invoice number as a payment reference.
+vatReasonText: Reason for non-charging VAT
+
+# Invoice Template specific translations
+invoiceTemplate:
+  billTo: Bill To
+  issuedBy: Issued By
+  eek: UIC/PIN/LNF
+  issueDate: Issue Date
+  quantity: Quantity 
+  address: Address
+  vatNumber: VAT Number
+
+toIssueDate: To
+fromIssueDate: From
+netPrice: Net Price
+isPaid: Paid
+isPaid.placeholder: Choose
+paymentMethod.placeholder: Choose payment method
+isPosted: Posted
+unpaid: Unpaid
+unposted: Unposted
+partially: Partially
+
+# Setting Company Info
+leftMenu.settingCompanyInfo: Setting Company Info
+settingCompanyInfo:
+  companyData: Company Data
+  companyName: Company Name
+  companyLogo: Company Logo
+  country: Country
+  city: City
+  address: Address
+  eik: EIK
+  ddsNumber: VAT Number
+  mol: MOL
+
+withDds: 'With VAT'
+ch113: 'article 113, par.9 VAT law'
+ch86: 'article 86, par.3 and article 21 VAT law'
+ch82: 'article 86, par.2 VAT law'
+ch21: 'article 21 VAT law'
+ch21Al2: 'article 21, par.2 VAT law'
+ch173: 'article 173 of the VAT Law'
+
+percentage: '%'
+
+numberErrorFlash: 'Invoice number conflict! The number already is in use.'
+invoicePayments: Payments
+createInvoicePaymentTitle: Create Payment
+editInvoicePaymentTitle: Edit Payment
+paymentDate: Payment Date
+paymentPrice: Payment Price
+paymentDescription: Payment Description
+paymentTransaction: Payment Transaction
+
+sendEmailTitle: Send Email to Client
+sendEmailContent: "Invoice Nº "
+addReceiver: Add Receiver
+sendEmailToClient: Send Email to Client
+
+invoiceLogCreatedAction: Created
+invoiceLogEditedAction: Edited
+invoiceLogRefusedAction: Refused
+invoiceLogAcceptedAction: Accepted
+invoiceLogAccountedAction: Accounted
+invoiceLogSentAction: Sent
+invoiceLogViewedAction: Viewed
+invoiceLogDownloadedAction: Downloaded
+
+emailTitle: Email Title
+clientName: Client Email
+emailContent: Email Content

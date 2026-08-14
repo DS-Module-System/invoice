@@ -1,0 +1,37 @@
+{% extends is_modal_request() ? 'core/modal-form-base.html.twig' : 'base.html.twig' %}
+
+{% import 'core/default_templates/form_table_macro.html.twig' as form_table %}
+
+{% set is_edit = is_edit_route(app.request.get('_route')) %}
+{% set form_btns = form_table.btns('invoice_payment_list', form, is_edit, {'invoiceId': additionalData.invoice.id}) %}
+{% set fields = form_table.generateFormRows(form) %}
+
+{% set headerTitle = '' %}
+{% if is_edit == false %}
+    {% set headerTitle = 'invoice.createInvoicePaymentTitle'|dtrans %}
+{% else %}
+    {% set headerTitle = 'invoice.editInvoicePaymentTitle'|dtrans %}
+{% endif %}
+
+{% set formOptions = {
+    'template': is_modal_request() ? 'core/default_templates/_form_modal.html.twig' : 'core/default_templates/_form.html.twig',
+} %}
+
+{% block body %}
+
+    {% include 'invoice/_tabs.html.twig' %}
+
+    {% embed formOptions.template with formOptions %}
+        {% block head_title %}
+            {{ headerTitle }}
+        {% endblock %}
+
+        {% block form_fields %}
+            {{ fields }}
+        {% endblock %}
+
+        {% block form_btns %}
+            {{ form_btns }}
+        {% endblock %}
+    {% endembed %}
+{% endblock %} 

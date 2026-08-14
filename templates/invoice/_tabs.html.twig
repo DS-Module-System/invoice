@@ -1,0 +1,61 @@
+{% set invoiceId = 0 %}
+{% set isActiveInvoiceTab = false %}
+{% set isActiveInvoicePreviewTab = false %}
+{% set isActiveInvoicePaymentTab = false %}
+{% set isActiveInvoiceSendEmailToClientTab = false %}
+
+{% if  app.request.get('_route') == "invoice_edit" %}
+    {% set invoiceId = app.request.get('id') %}
+    {% set isActiveInvoiceTab = true %}
+{% endif %}
+
+{% if app.request.get('_route') == "invoice_view" %}
+    {% set invoiceId = app.request.get('id') %}
+    {% set isActiveInvoicePreviewTab = true %}
+{% endif %}
+
+{% if app.request.get('_route') == "invoice_payment_list" or app.request.get('_route') == "invoice_payment_edit" or app.request.get('_route') == "invoice_payment_create" %}
+    {% set invoiceId = app.request.get('invoiceId') %}
+    {% set isActiveInvoicePaymentTab = true %}
+{% endif %}
+
+{% if app.request.get('_route') == "invoice_send_email_to_client" %}
+    {% set invoiceId = app.request.get('id') %}
+    {% set isActiveInvoiceSendEmailToClientTab = true %}
+{% endif %}
+
+<ul class="nav nav-pills bg-nav-pills mb-3" id="project">
+
+    <li class="nav-item">
+        <a href="{{ path('invoice_view', {'id': invoiceId}) }}" class="nav-link rounded-0 {{ isActiveInvoicePreviewTab ? 'active' : '' }}">
+            <i class="mdi mdi-view-agenda d-md-none d-block"></i>
+            <span class="d-none d-md-block">{{ 'invoice.actions.preview'|dtrans }}</span>
+        </a>
+    </li>
+
+    <li class="nav-item">
+        <a href="{{ path('invoice_edit', {'id': invoiceId}) }}" class="nav-link rounded-0 {{ isActiveInvoiceTab ? 'active' : '' }}">
+            <i class="mdi mdi-home-variant d-md-none d-block"></i>
+            <span class="d-none d-md-block">{{ 'core.module.editBtnTitle'|dtrans }}</span>
+        </a>
+    </li>
+
+    {% if invoiceId > 0 %}
+        {% set invoice = get_invoice_by_id(invoiceId) %}
+        {% if invoice and invoice.type is constant('App\\Enum\\Invoice\\InvoiceType::Invoice') %}
+            <li class="nav-item">
+                    <a href="{{ path('invoice_payment_list', {'invoiceId': invoiceId}) }}" class="nav-link rounded-0 {{ isActiveInvoicePaymentTab ? 'active' : '' }}">
+                        <i class="mdi mdi-cash-multiple d-md-none d-block"></i>
+                        <span class="d-none d-md-block">{{ 'invoice.invoicePayments'|dtrans }}</span>
+                    </a>
+                </li>
+        {% endif %}
+    {% endif %}
+
+    <li class="nav-item">
+        <a href="{{ path('invoice_send_email_to_client', {'id': invoiceId}) }}" class="nav-link rounded-0 {{ isActiveInvoiceSendEmailToClientTab ? 'active' : '' }}">
+            <i class="mdi mdi-email d-md-none d-block"></i>
+            <span class="d-none d-md-block">{{ 'invoice.sendEmailToClient'|dtrans }}</span>
+        </a>
+    </li>
+</ul>

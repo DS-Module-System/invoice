@@ -1,0 +1,11 @@
+parameters:
+    invoice_roles:
+        # Invoice management roles
+        "ROLE_INVOICE_VIEW": "roles.role_invoice_view"
+        "ROLE_INVOICE_CREATE": "roles.role_invoice_create"
+        "ROLE_INVOICE_EDIT": "roles.role_invoice_edit"
+        "ROLE_INVOICE_DELETE": "roles.role_invoice_delete"
+        "ROLE_INVOICE_APPROVE": "roles.role_invoice_approve"
+        "ROLE_INVOICE_SEND": "roles.role_invoice_send"
+        "ROLE_INVOICE_CANCEL": "roles.role_invoice_cancel"
+        "ROLE_INVOICE_SEND_EMAIL_TO_CLIENT": "roles.role_invoice_send_email_to_client"

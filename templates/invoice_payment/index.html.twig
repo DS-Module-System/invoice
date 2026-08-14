@@ -1,0 +1,37 @@
+{% extends 'base.html.twig' %}
+
+{% import 'core/default_templates/form_search.html.twig' as form_search %}
+{% import 'core/default_templates/data_table_macro.html.twig' as data_table %}
+
+{% block body %}
+    
+    {% include 'invoice/_tabs.html.twig' %}
+
+    {{ data_table.table(rows, {
+        "newLink": data_table.new_btn('invoice_payment_create', {'invoiceId': additionalData.invoice.id}),
+        "cols" : {
+            "tableAction": {
+                "label": "core.module.actionTitle",
+                "edit": path('invoice_payment_edit', {"id": -1, "invoiceId": additionalData.invoice.id}),
+            },
+            "date": {
+                "label": "invoice.paymentDate",
+                "type": "date",
+            },
+            "price": {
+                "label": "invoice.paymentPrice",
+                "type": "currency",
+            },
+            "description": {
+                "label": "invoice.paymentDescription",
+            },
+            "transaction": {
+                "label": "invoice.paymentTransaction",
+            },
+            "createdAt": {
+                "label": "invoice.createdAt",
+                "type": "datetime",
+            },
+        }
+    }) }}
+{% endblock %} 

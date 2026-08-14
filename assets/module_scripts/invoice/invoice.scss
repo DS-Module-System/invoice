@@ -1,0 +1,55 @@
+/*! purgecss start ignore */
+//.invoice-item-td-action {
+//    width: 90px;
+//}
+//.invoice-item-td-desc {
+//    width: 450px;
+//}
+//.invoice-item-td-qty {
+//    width: 140px;
+//}
+//.invoice-item-td-unit-price {
+//    width: 100px;
+//}
+//.invoice-item-td-total {
+//    width: 100px;
+//}
+.invoiceItemPrototype td {
+  white-space: nowrap;
+}
+.invoice-item-td-desc {
+  width: 100%;
+}
+.invoice-item-td-desc input {
+  width: 100%;
+  min-width: 360px;
+}
+.invoice-item-td-qty {
+  text-align: right;
+  width: 139px;
+}
+.invoice-item-td-qty input {
+  width: 57px;
+}
+.invoice-item-td-qty select {
+  width: 50px;
+}
+.invoice-item-td-unit-price {
+  text-align: right;
+  width: 98px;
+}
+.invoice-item-td-unit-price input{
+  width: 81px;
+}
+.invoice-item-td-unit-total {
+  text-align: right;
+  width: 160px;
+}
+.invoice-promotion-value {
+  width: 75px;
+}
+.invoice-dds-percentage {
+  width: 35px;
+}
+
+/*! purgecss end ignore */

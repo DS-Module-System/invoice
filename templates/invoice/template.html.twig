@@ -1,0 +1,1060 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <style>
+        /* base */
+        html,
+        body {
+            height: 945px;
+            width: 100%;
+            min-width: 780px;
+            margin: 0;
+            padding: 0;
+        }
+
+        .invoiceTemplate {
+            /*height: 945px;*/
+            width: 100%;
+            padding: 30px 20px;
+            /*overflow: hidden;*/
+            position: relative;
+            page-break-after: always;
+            background-color: #ffffff;
+            box-sizing: border-box;
+            margin: 0 auto;
+        }
+
+        .invoiceTemplate.landscape {
+            width: 816px;
+            height: 560px;
+        }
+
+        .invoiceTemplate.additional * {
+            font-size: inherit;
+            font-family: inherit;
+            overflow: visible;
+        }
+
+        .invoiceTemplate * {
+            /*overflow: hidden;*/
+            margin: 0;
+            padding: 0;
+            /*font-size: 13px;*/
+            font-family: arial, Helvetica, sans-serif;
+            /*white-space: nowrap;*/
+        }
+
+        .invoiceTemplateItemTextDescription {
+            white-space: normal;
+        }
+
+        .invoiceTemplateLeftColumn {
+            float: left;
+            width: 50%;
+            text-align: left;
+        }
+
+        .invoiceTemplateLeftColumn table {
+            border-collapse: collapse;
+        }
+
+        .invoiceTemplateLeftColumn table td {
+            border: 1px solid #ccc;
+        }
+
+        .invoiceTemplateRightColumn {
+            float: right;
+            width: 50%;
+            text-align: right;
+        }
+
+        .invoiceTemplateThirdColumn {
+            width: 200px !important;
+        }
+
+        /* logo */
+        .invoiceTemplateLogo {
+            height: 75px;
+            width: 230px;
+            background: none;
+            background-repeat: no-repeat !important;
+            background-position: left top !important;
+            margin-right: 20px;
+            margin-bottom: 10px;
+        }
+
+        .invoiceTemplateLogo img {
+            max-height: 100%;
+            max-width: 100%;
+        }
+
+        .invoiceTemplateLogoRight {
+            height: 90px;
+            width: 300px;
+            background: none;
+            background-repeat: no-repeat !important;
+            background-position: right top !important;
+            float: right;
+            margin-bottom: 10px;
+            text-align: right;
+        }
+
+        .invoiceTemplateLogoRight img {
+            max-width: 300px;
+            max-height: 115px;
+        }
+
+        .invoiceTemplateLogoLeft {
+            height: 75px;
+            width: 240px;
+            background: none;
+            background-repeat: no-repeat !important;
+            background-position: left top !important;
+            float: left;
+            margin-bottom: 10px;
+        }
+
+        .invoiceTemplateLogoLeft img {
+            max-width: 100%;
+            max-height: 100%;
+        }
+
+        /* blocks */
+        .invoiceTemplateHeader {
+            margin-bottom: 35px;
+        }
+
+        .invoiceTemplateObjectsTable {
+            width: 100%;
+        }
+
+        .invoiceTemplateExtraDataRow {
+            margin: 5px 0;
+            padding: 3px 0;
+        }
+
+        .invoiceTemplateSignatureTarget {
+            font-size: 13px;
+            margin-bottom: 10px;
+            margin-top: 0;
+        }
+
+        /* Common styles */
+
+        .invoiceTemplateBold {
+            font-weight: bold;
+        }
+
+        .invoiceTemplateTextRight {
+            text-align: right !important;
+        }
+
+        .invoiceTemplateTextLeft {
+            text-align: left !important;
+        }
+
+        .invoiceTemplateDivider {
+            border: none;
+            height: 1px;
+            width: 100%;
+            /*background: #cccccc;*/
+            font-size: 1px;
+            line-height: 1px;
+            clear: both;
+        }
+
+        .invoiceTemplateNotes {
+            border-top: 1px solid #414141;
+            font-size: 11px;
+            margin-top: 30px;
+            padding-top: 10px;
+            white-space: pre-line;
+        }
+
+        .simplebox .invoiceTemplate {
+            margin: 20px auto 40px;
+        }
+
+        .invoiceTemplateExtraDataRow p {
+            white-space: normal;
+        }
+
+        .invoiceTemplateOFVisible {
+            overflow: visible !important;
+        }
+
+        .invoiceTemplateSignaturesContainer {}
+
+        .invoiceTemplatePaging {
+            position: absolute;
+            bottom: 5px;
+            right: 50px;
+        }
+
+        .clearboth {
+            clear: both;
+            line-height: 1px;
+            font-size: 1px !important;
+        }
+
+        .bankdetailsData {
+            border: 1px solid #000;
+        }
+        .bankdetailsData td {
+            padding: 3px;
+        }
+
+        .invoiceTemplateSignature {
+            display: block;
+            margin-top: 30px;
+        }
+
+        .invoiceTemplateObjectsTable td {
+            white-space: normal;
+        }
+
+        .invoiceAmountBGN {
+            /*color: #888888;*/
+            /*font-size: 10px !important;*/
+            font-style: italic;
+        }
+
+        .invoiceTemplateSummaryData .custom_html {
+            padding-top: 0 !important;
+            width: 100%;
+            max-height: 300px;
+            overflow: hidden;
+        }
+
+        .firstBankAccount {
+            margin-top: 20px;
+        }
+
+        .bankAccountBorderSolid {
+            width: 100%;
+            border-bottom: 1px solid #e5e5e5;
+        }
+
+        .bankAccountBorderDashed {
+            border-top: 1px dashed #e5e5e5;
+        }
+
+        .bankAccountRow {
+            padding: 6px 0;
+            font-size: 12px;
+        }
+
+        .bankName {
+            width: 230px;
+            padding-right: 20px;
+            float: left;
+            font-weight: bold;
+            white-space: pre-line;
+        }
+
+        .bankAccountBic {
+            width: 105px;
+            float: left;
+            padding-right: 20px;
+            white-space: pre-line;
+        }
+
+        .bankAccountCurrency {
+            width: 26px;
+            float: left;
+            padding-right: 20px;
+        }
+
+        .bankAccountIban {
+            width: 210px;
+            float: right;
+            padding-right: 20px;
+        }
+
+        .combined-payment-view-row td {
+            padding-top: 10px;
+        }
+
+        td.combined-payment-group-column {
+            padding-top: 5px;
+        }
+
+        .combined-payment-fixed-width {
+            width: 150px;
+            max-width: 150px;
+        }
+
+        td.combined-payment-note {
+            color: #282828;
+            font-size: 10px;
+            line-height: 10px;
+        }
+
+        .combined-payment-table {
+            margin-left: 10px;
+            white-space: normal;
+            word-wrap: break-word;
+        }
+
+        .combined-payment-table td {
+            white-space: normal;
+        }
+
+        .combined-payment-text {
+            font-size: 12px;
+            line-height: 15px;
+        }
+
+        .combined-payment-text-bold {
+            font-size: 12px;
+            line-height: 15px;
+            font-weight: bold;
+        }
+
+        .combined-payment-amount {
+            font-size: 12px;
+            line-height: 15px;
+            text-align: right;
+        }
+
+        .box-sizing * {
+            box-sizing: border-box;
+        }
+
+        tr.invoice-items-row td:not(:last-child) {
+            padding-right: 20px;
+        }
+
+        .invoiceTemplateObjectsTable td.nowrap {
+            white-space: nowrap;
+        }
+
+        .nowrap {
+            white-space: nowrap;
+        }
+
+        .right-aligned {
+            text-align: right;
+        }
+
+        .invoiceTemplate {
+            /*height: 975px;*/
+            padding-bottom: 0px;
+        }
+
+        .invoiceTemplateNotes * {
+            line-height: 18px;
+        }
+
+        .invoiceTemplate * {
+            font-family: Verdana, Helvetica, sans-serif !important;
+            font-size: 14px;
+            line-height: 16px;
+        }
+
+        .clearboth {
+            line-height: 0px;
+        }
+
+        .invoiceTemplatePriceContainerBig {
+            background: #14ba00;
+            padding: 20px 15px;
+            height: 55px;
+            overflow: visible;
+            width: 500px;
+        }
+
+        .invoiceTemplatePriceBig {
+            color: #ffffff;
+            font-size: 52px;
+            font-weight: bold;
+            line-height: 40px;
+        }
+
+        .invoiceTemplatePriceCurrency {
+            color: #ffffff;
+            font-size: 30px;
+            line-height: 40px;
+        }
+
+        .invoiceTemplatePriceNote {
+            color: #ffffff;
+            font-size: 12px;
+        }
+
+        .invoiceTemplateObjectsTable {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        .invoiceTemplateObjectsTable td {
+            padding: 3px;
+            border: 1px solid black;
+            vertical-align: middle;
+            height: 17px;
+            white-space: normal;
+            word-break: break-word;
+        }
+
+        .invoiceTemplateObjectsTable thead th {
+            color: #000000;
+            font-weight: bold;
+            /*background: #e5e5e5;*/
+            height: 30px;
+            border: 1px solid black;
+            padding: 3px;
+            vertical-align: middle;
+            white-space: normal;
+            word-break: break-word;
+            text-align: left;
+            background-color: #ddd;
+        }
+
+        .invoiceTemplateObjectsTable tbody {}
+
+        .invoiceTemplateHighlight {
+            font-weight: bold;
+            display: inline-block;
+            width: 150px;
+            /*background: #e5e5e5;*/
+        }
+
+        .invoiceTemplateNotes {
+            border-top: 1px dashed #e5e5e5;
+        }
+
+        .invoiceTemplateSubHeader .invoiceTemplateTargetData {
+            /*padding: 10px;*/
+            border: 1px solid black;
+            /*background: #e5e5e5;*/
+        }
+
+        .invoiceTemplateSubHeader .invoiceTemplateTargetData * {
+            white-space: normal;
+        }
+
+        .invoiceTemplateTargetData table {
+            border-collapse: collapse;
+        }
+
+        .invoiceTemplateTargetData td {
+            padding: 3px;
+            border: 1px solid #ccc;
+        }
+
+        .invoiceTemplateSubHeader .invoiceTemplateTargetData div div {
+            padding: 3px;
+            border-bottom: 1px solid #cccccc;
+            border-left: 1px solid #cccccc;
+            background: #ffffff;
+            text-align: left;
+        }
+
+        .invoiceTemplateWhiteCell {
+            background: #ffffff !important;
+        }
+
+        .invoiceTemplateHighlightBg {
+            /*background: #f5f5f5 !important;*/
+        }
+
+        .invoiceTemplateSubHeader .invoiceTemplateAddress {
+            background: #ffffff;
+            /*padding: 10px 3px;*/
+            font-weight: bold;
+        }
+
+        td.invoiceTemplateAddress {
+            /*height: 80px;*/
+            vertical-align: top;
+        }
+
+        .invoiceTemplateSubHeader h2 {
+            font-size: 12px;
+            text-transform: uppercase;
+            font-weight: bold;
+            /*background: #eeeeee;*/
+            padding: 3px;
+            width: 50%;
+            display: inline-block;
+        }
+
+        .invoiceTemplateSubHeader p {
+            margin: 3px 0;
+        }
+
+        .invoiceTemplateInvoiceData h2 {
+            font-size: 24px;
+            color: #000000;
+            line-height: 35px;
+            white-space: normal !important;
+        }
+
+        .invoiceTemplateInvoiceData {
+            border-left: 1px solid black;
+            border-bottom: 1px solid black;
+            border-right: 1px solid black;
+            text-align: right;
+            padding: 10px;
+        }
+
+        .invoiceTemplateInvoiceData table {
+            float: right;
+            font-weight: bold;
+            margin-top: 5px;
+        }
+
+        .invoiceTemplateInvoiceData table td {
+            padding: 3px;
+        }
+
+        .invoiceTemplateInvoiceData table td.invoiceTemplateInvoiceDataHighlight {
+            text-align: left;
+            /*background: #e5e5e5;*/
+            font-weight: bold;
+        }
+
+        .invoiceTemplateInvoiceData p {
+            text-align: right;
+        }
+
+        .invoiceTemplateLeftColumn p {
+            white-space: normal;
+        }
+
+        .invoiceTemplateExtraDataRow .invoiceTemplateLeftColumn,
+        .invoiceTemplateExtraDataRow .invoiceTemplateRightColumn {
+            overflow: visible;
+        }
+
+        div.invoiceTemplateInvoiceData {
+            overflow: visible;
+            margin-bottom: 15px;
+        }
+
+        .invoiceTemplateInvoiceData .invoiceTemplateLeftColumn p {
+            padding-top: 9px;
+        }
+
+        .invoiceTemplateObjectsTableContainer {
+            height: 240px;
+            margin-top: 40px;
+        }
+
+        .invoiceTemplateHeader {
+            margin-bottom: 0;
+        }
+
+        .invoiceTemplateBorder {
+            border: 1px solid black;
+        }
+
+        .summaryHighlight {
+            /*background: #e5e5e5;*/
+            font-weight: bold;
+            text-align: right;
+        }
+
+        .invoiceTemplateSummaryData {
+            padding-top: 20px;
+        }
+
+        .invoiceTemplateSummaryDataTable {
+            float: right;
+        }
+
+        .invoiceTemplateSummaryDataTable td {
+            padding: 4px;
+        }
+
+        .invoiceTemplateExtraDataRow {
+            margin: 0;
+            padding: 0;
+        }
+
+        .invoiceTemplateExtraDataRow p {
+            border-bottom: 1px solid black;
+            /*background: #e5e5e5;*/
+            padding: 5px;
+            margin: 0;
+        }
+
+        .invoiceTemplateExtraDataRow span {
+            white-space: normal;
+        }
+
+        .invoiceTemplateOriginalCopy {
+            font-size: 32px;
+            color: #000000;
+            font-weight: bold;
+        }
+
+        .invoiceTemplateCashReport {
+            font-size: 26px;
+        }
+
+        .summaryBig,
+        #pamount_total {
+            font-size: 18px;
+            font-weight: bold;
+            /*background: #cccccc;*/
+        }
+
+        .invoiceTemplateLogoRight {
+            margin-bottom: 15px !important;
+        }
+
+        .invoiceTemplateSignaturesContainer {
+            padding-top: 20px;
+        }
+
+        .right-aligned-with-left-spacing {
+            padding-left: 15px !important;
+            text-align: right;
+        }
+
+        .right-aligned {
+            text-align: right;
+        }
+
+        .invoiceTemplateObjectsTable table {
+            page-break-inside: auto
+        }
+
+        .invoiceTemplateObjectsTable tr {
+            page-break-inside: avoid;
+            page-break-after: auto
+        }
+
+        .invoiceTemplateObjectsTable thead {
+            display: table-header-group
+        }
+
+        .invoiceTemplateObjectsTable tfoot {
+            display: table-footer-group
+        }
+
+
+        .invoiceTemplateObjectsTable > thead > tr >th:nth-child(1),
+        .invoiceTemplateObjectsTable > tbody > tr >td:nth-child(1) {
+            width: 37px;
+        }
+
+        .invoiceTemplateObjectsTable > thead > tr >th:nth-child(2),
+        .invoiceTemplateObjectsTable > tbody > tr >td:nth-child(2) {
+            width: 100%;
+        }
+        .invoiceTemplateObjectsTable > thead > tr >th,
+        .invoiceTemplateObjectsTable > tbody > tr > td {
+            padding-left: 5px;
+            padding-right: 5px;
+        }
+
+        .invoiceTemplateObjectsTable > thead > tr >th:nth-child(4),
+        .invoiceTemplateObjectsTable > tbody > tr >td:nth-child(4) {
+            /*min-width: 145px;*/
+        }
+
+        .ctm-table-company-info {
+            border-collapse: collapse;
+            /*border: 1px solid #000;*/
+        }
+
+        .ctm-table-company-info td {
+            vertical-align: top;
+        }
+        .ctm-table-company-info > tbody > tr:first-child > td:nth-child(1),
+        .ctm-table-company-info > tbody > tr:first-child > td:nth-child(3) {
+            border-top: 1px solid #000;
+        }
+        .ctm-table-company-info > tbody > tr:last-child > td:nth-child(1),
+        .ctm-table-company-info > tbody > tr:last-child > td:nth-child(3)
+        {
+            border-bottom: 1px solid #000;
+        }
+        .ctm-table-company-info > tbody > tr > td {
+            border-collapse: collapse;
+            border-left: 1px solid #000;
+            border-right: 1px solid #000;
+            padding: 3px;
+            /*border-bottom: 1px solid #eee;*/
+        }
+        .ctm-table-company-info > tbody > tr > td:nth-child(1),
+        .ctm-table-company-info > tbody > tr > td:nth-child(3){
+            width: 47%;
+        }
+        .ctm-table-company-info > tbody > tr > td:nth-child(2){
+            width: 6%;
+            border-bottom: none!important;
+            border-top: none!important;
+            background-color: white!important;
+        }
+        .ctm-table-company-info > tbody > tr:first-child > td {
+            /*border-bottom-width: 5px;*/
+            border-bottom: 2px solid #000;
+            background-color: #ddd;
+        }
+        .ctm-table-document-info {
+            margin: 30px 0;
+        }
+
+        .ctm-table-company-info-middle {
+            width: 150px;
+        }
+        .ctm-table-document-info td {
+            padding: 3px;
+            font-weight: bold;
+            width: 50%;
+            white-space: normal;
+        }
+        .invoiceTemplateEntry td {
+            border-color: #ddd;
+        }
+        .invoiceTemplateEntry td:first-child {
+            border-left-color: #000;
+        }
+        .invoiceTemplateEntry td:last-child {
+            border-right-color: #000;
+        }
+        .invoiceTemplateEntry td:nth-child(3) {
+            border-right-color: #000;
+        }
+        .invoiceTemplateEntry.last-row td {
+            border-bottom-color: #000;
+            border-bottom-width: 2px;
+        }
+        .invoice-total-data td:nth-child(1),
+        .invoice-total-data td:nth-child(2),
+        .invoice-total-data td:nth-child(3) {
+            border-color: white;
+        }
+        .invoice-total-data td:nth-child(3) {
+            border-right-color: #000;
+        }
+        .invoice-total-data td:nth-child(4) {
+            border-right-color: #ddd;
+            border-bottom-color: #ddd;
+        }
+        .invoice-total-data td:nth-child(5) {
+            border-bottom-color: #ddd;
+        }
+        .invoice-total-data:last-child td:nth-child(4),
+        .invoice-total-data:last-child td:nth-child(5) {
+            border-bottom-color: #000;
+        }
+        .invoiceTemplate .font-size-16,
+        .invoiceTemplate .font-size-16 *,
+        .font-size-16 {
+            font-size: 16px!important;
+        }
+        .dds-width {
+            width: 210px;
+            display: inline-block;
+        }
+        .address-width {
+            width: 60px;
+            display: inline-block;
+        }
+    </style>
+</head>
+
+<body>
+        {% for printType in printTypes %}
+            <div class="actionMenuHolder">
+                <div id="invoiceTemplateContainer_74_original" class="invoiceTemplate" style="">
+                    {% if image is not empty %}
+                        <div class="invoiceTemplateHeader" id="invoiceTemplateHeader_74_original">
+                            <div class="invoiceTemplateLogoRight">
+                                <img style="width: 200px; height: 100px;" src="{{ image }}" alt="">
+                            </div>
+                        </div>
+                    {% endif %}
+                    <span class=""></span>
+
+                    <div>
+                        <table class="ctm-table-company-info" cellspacing="0" cellpadding="0" border="0" width="100%">
+                            <tbody>
+                                <tr style="text-transform: uppercase" class="font-size-16">
+                                    <td>
+                                        <h2 class="font-size-16">{{ 'invoice.invoiceTemplate.billTo'|dtrans }}</h2>
+                                    </td>
+                                    <td class="ctm-table-company-info-middle"></td>
+                                    <td>
+                                        <h2 class="font-size-16">{{ 'invoice.invoiceTemplate.issuedBy'|dtrans }}</h2>
+                                    </td>
+                                </tr>
+                                
+                                <tr style="font-weight: bold;">
+                                    <td>
+                                        {{ client.name }}
+                                    </td>
+                                    <td class="ctm-table-company-info-middle"></td>
+                                    <td>
+                                        {{ company.value['companyName'] }}
+                                    </td>
+                                </tr>
+
+                                <tr>
+                                    <td>
+                                            <span>{{ 'invoice.invoiceTemplate.eek'|dtrans }}:</span>
+                                        {% if client.eek %} 
+                                            {{ client.eek }}
+                                        {% endif %}
+                                    </td>
+                                    <td class="ctm-table-company-info-middle"></td>
+                                    <td>
+                                        <span>{{ 'invoice.invoiceTemplate.eek'|dtrans }}:</span> {{company.value['eik']}}
+                                    </td> 
+                                </tr>
+
+                                <tr>
+                                    <td>
+                                        {% if client.vat %}
+                                            <span>{{ 'invoice.invoiceTemplate.vatNumber'|dtrans }}:</span>
+                                            {% if client.vat %}
+                                                {{ client.vat }}
+                                            {% endif %}
+                                        {% endif %}
+                                    </td>
+                                    <td class="ctm-table-company-info-middle"></td>
+                                    <td>
+                                        <span>{{ 'invoice.invoiceTemplate.vatNumber'|dtrans }}:</span>
+                                        {{client.vat}}
+                                    </td>
+                                </tr>
+
+                                    <tr>
+                                        <td>
+                                            <table cellpadding="0" cellspacing="0" width="100%">
+                                                <tr>
+                                                    <td qclass="invoiceTemplateHighlightBg">
+                                                        <span>{{ 'invoice.invoiceTemplate.address'|dtrans }}:</span>
+                                                        {{ client.address }}
+                                                   {# <td qclass="invoiceTemplateWhiteCell" style="white-space: initial">
+
+                                                    </td> #}
+                                                </tr>
+                                            </table>
+                                        </td>
+                                        <td class="ctm-table-company-info-middle"></td>
+                                        <td>
+                                            <table cellpadding="0" cellspacing="0" width="100%">
+                                                <tr>
+                                                    <td qclass="invoiceTemplateHighlightBg" >
+                                                        <span>{{ 'invoice.invoiceTemplate.address'|dtrans }}:</span>
+                                                        {{ company.value['address'] }}
+                                                    </td>
+                                                   <td qclass="invoiceTemplateWhiteCell" style="white-space: initial">
+                                                     
+                                                   </td>
+                                                </tr>
+                                            </table>
+                                        </td>
+                                    </tr>
+                            </tbody>
+                        </table>
+                    </div>
+
+                    <table cellspacing="0" cellpadding="0" border="0" width="100%" class="ctm-table-document-info font-size-16">
+                        <tr>
+                            <td width="50%">
+                                <div style="text-transform: uppercase;">
+                                    {% if invoice.type is constant('App\\Enum\\Invoice\\InvoiceType::Invoice') %}
+                                        {{ 'invoice.invoice'|dtrans }}
+                                    {% elseif invoice.type is constant('App\\Enum\\Invoice\\InvoiceType::CreditInvoice') %}
+                                        {{ 'invoice.creditNote'|dtrans }}
+                                    {% elseif invoice.type is constant('App\\Enum\\Invoice\\InvoiceType::DebitInvoice') %}
+                                        {{ 'invoice.debitNote'|dtrans }}
+                                    {% endif %}
+                                </div>
+                                <div>
+                                    {% if printType == 'copy' %}
+                                        ({{ 'invoice.copy'|dtrans }})
+                                    {% else %}
+                                        ({{ 'invoice.original'|dtrans }})
+                                    {% endif %}
+                                </div>
+                            </td>
+                            <td width="50%" style="text-align: right">
+                                <div>{{ 'invoice.number'|dtrans }}: {{ invoice.number }}</div>
+                                <div>{{ 'invoice.invoiceTemplate.issueDate'|dtrans }}: {{ invoice.issueDate|date(date_format) }}</div>
+                                {% if invoice.parent is not null %}
+                                    <div>{{ 'invoice.toInvoice'|dtrans }}: {{ invoice.parent.number }}/{{ invoice.parent.issueDate|date(date_format) }}</div>
+                                {% endif %}
+                            </td>
+                        </tr>
+                    </table>
+
+
+                    <table cellpadding="0" cellspacing="0" border="0" class="invoiceTemplateObjectsTable" style="margin-bottom: 30px">
+                        <thead>
+                            <tr>
+                                <th >#</th>
+                                <th>{{ 'invoice.item'|dtrans }}</th>
+                                <th class="nowrap">{{ 'invoice.invoiceTemplate.quantity'|dtrans }}</th>
+                                <th class="nowrap">{{ 'invoice.unitCost'|dtrans }}</th>
+                                <th class="nowrap">{{ 'invoice.price'|dtrans }}</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% set kk = 0 %}
+                            {% for key, item in products %}
+                            {% set kk = kk + 1 %}
+                            <tr class="invoiceTemplateEntry {{ products[kk] is not defined ? 'last-row' : '' }}">
+                                <td class="nowrap">{{ kk }}</td>
+                                <td class="">
+                                    <div class="invoiceTemplateItemTextDescription">{{ item.name|nl2br }}</div>
+                                </td>
+                                <td class="right-aligned nowrap">
+                                    {{ "%01.2f"|format(item.count) }} {{ item.unit.label|dtrans }}
+                                </td>
+                                <td class="right-aligned nowrap" style="white-space: nowrap;">
+                                    {{ "%01.2f"|format(item.price) }}
+                                </td>
+                                <td class="right-aligned "
+                                    style="qbackground: #f5f5f5; white-space: nowrap;">
+                                    {{ (item.count * item.price)|number_format(2, '.', '') }}
+                                </td>
+                            </tr>
+                            {% endfor %}
+
+                            {% if invoice.promotionPrice > 0 %}
+
+                                <tr class="invoice-total-data" style="font-weight: bold">
+                                    <td></td>
+                                    <td></td>
+                                    <td></td>
+                                    <td style="text-align: right;" class="nowrap">
+                                        {{ 'invoice.priceWithoutDiscount'|dtrans }}
+                                    </td>
+                                    <td style="text-align: right;" class=" nowrap">
+                                        <span>{{ (invoice.subTotalPrice)|number_format(2,'.','') }}</span>
+                                    </td>
+                                </tr>
+
+                                <tr class="invoice-total-data">
+                                    <td></td>
+                                    <td></td>
+                                    <td></td>
+                                    <td style="text-align: right;">{{ 'invoice.discount'|dtrans }}
+                                        {% if invoice.promotionType is constant('App\\Enum\\Invoice\\InvoicePromotionType::Percentage') %}
+                                            <span class="nowrap">({{ "%01.2f"|format(invoice.promotionValue) }} %)</span>
+                                        {% endif %}
+                                    </td>
+                                    <td style="text-align: right;" class=" nowrap">
+                                        <span class="">{{ invoice.promotionPrice|number_format(2, '.', '') }}</span>
+                                    </td>
+                                </tr>
+
+                            {% endif %}
+
+                            <tr class="invoice-total-data invoice-total-data-first-child">
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td style="text-align: right;">{{ 'invoice.vatBase'|dtrans }}</td>
+                                <td style="text-align: right;" class=" nowrap">
+                                    {{ invoice.type is constant('App\\Enum\\Invoice\\InvoiceType::CreditInvoice') ? '-' : '' }}{{ taxBasePrice|number_format(2,'.','') }}
+                                </td>
+                            </tr>
+                            <tr class="invoice-total-data">
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td style="text-align: right;">{{ 'invoice.vat'|dtrans }} <span class="nowrap">({{ "%01.2f"|format(ddsPercent) }} %)</span></td>
+                                <td style="text-align: right;" class=" nowrap">
+                                            <span class="">{{ ddsTotalSum|number_format(2, '.', '') }}</span>
+                                    
+                                </td>
+                            </tr>
+                            <tr class="invoice-total-data" style="font-weight: bold">
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td style="text-align: right;" class="nowrap">
+                                    {{ 'invoice.priceForPay'|dtrans }}
+                                </td>
+                                <td style="text-align: right;" class=" nowrap">
+                                            <span>{{ invoice.type is constant('App\\Enum\\Invoice\\InvoiceType::CreditInvoice') ? '-' : '' }}{{ (totalSum)|number_format(2,'.','') }}</span>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+
+
+                    {% if invoice.ddsOption is not constant('App\\Enum\\Invoice\\InvoiceDdsOptions::WithDds') %}
+                        <p style="margin: 10px 0;">Основание за неначисляване на ДДС: {{ invoice.ddsOption.label('bg') }}</p>
+                    {% endif %}
+
+                    <p style="margin: 10px 0;">
+                        {{ 'invoice.amountInWords'|dtrans }}: {{ number2text(totalSum, 'BGN', 'bg') }}
+                    </p>
+
+                    <p style="margin: 10px 0;font-size: 13px;">
+                        {{ 'invoice.note'|dtrans }}: {{ invoice.note ? invoice.note : '' }}
+                    </p>
+
+                    <p style="margin: 10px 0; font-size: 13px;">
+                        Моля, извършвайте плащания чрез банков превод към сметката, посочена по-долу, като се уверите, че сте включили номера на фактурата като референтен номер на плащането.
+                    </p>
+
+                    <div class="invoiceTemplateSummaryData" id="invoiceTemplateSummaryData_74_original">
+                        <div class="invoiceTemplateLeftColumn" style="border: 1px solid #000; display: inline-block;width: auto;">
+                            <table width="100%" style="width: 600px; border: 1px solid #000;" qbgcolor="#cccccc" border="0" cellpadding="3" cellspacing="1"
+                                   class="bankdetailsData">
+                                <tbody>
+                                <tr>
+                                    <td colspan="2" bgcolor="#ddd" style="font-weight: bold">{{ 'invoice.bankDetails'|dtrans }}</td>
+                                </tr>
+                                <tr>
+                                    <td width="20%" qbgcolor="#ddd">{{ 'invoice.bank'|dtrans }}</td>
+                                    <td width="80%" style="white-space:normal" bgcolor="#ffffff"
+                                        class="">
+                                        <div>{{ invoice.bankAccount ? invoice.bankAccount.bankName : '' }}</div>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td width="20%" qbgcolor="#ddd">{{ 'client.address'|dtrans }}</td>
+                                    <td width="80%" style="white-space:normal" bgcolor="#ffffff"
+                                        class="">
+                                        <div>{{ invoice.bankAccount and invoice.bankAccount.address ? invoice.bankAccount.address : '' }}</div>
+                                    </td>
+                                </tr>
+                                <tr style="font-weight: bold">
+                                    <td qbgcolor="#f5f5f5">IBAN:</td>
+                                    <td bgcolor="#ffffff" class="">{{ invoice.bankAccount ? invoice.bankAccount.iban : '' }}</td>
+                                </tr>
+                                <tr style="font-weight: bold">
+                                    <td qbgcolor="#f5f5f5">SWIFT:</td>
+                                    <td bgcolor="#ffffff" class="">{{ invoice.bankAccount ? invoice.bankAccount.swift : '' }}</td>
+                                </tr>
+                                </tbody>
+                            </table>
+                        </div>
+
+                    </div>
+
+                    <table style="width: 100%">
+                        <tr>
+                            <td width="50%">
+                                <div style="margin-top: 30px">
+                                    <div class="nowrap">{{ 'invoice.billTo'|dtrans }}: {{ client.mol is defined and client.mol is not empty ? client.mol : '' }}</div>
+                                </div>
+                            </td>
+                            <td width="50%" style="text-align: right">
+                                <div style="margin-top: 20px">
+                                    <div class="nowrap">{{ 'invoice.issuedBy'|dtrans }}: {{invoice.createdBy.name}}</div>
+                                </div>
+                            </td>
+                        </tr>
+                    </table>
+
+                </div>
+            </div>
+        {% endfor %}
+{#    {% endfor %}#}
+</body>
+
+</html>

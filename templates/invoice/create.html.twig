@@ -1,0 +1,50 @@
+{% extends 'base.html.twig' %}
+
+{% import 'core/default_templates/form_table_macro.html.twig' as form_table %}
+
+{% set form_btns = form_table.btns('invoice_list', form) %}
+
+{# {% block javascript %}
+    {{ parent() }}
+    {{ encore_entry_script_tags('admin_app_invoice') }}
+{% endblock %}
+
+{% block stylesheet_after %}
+    {{ parent() }}
+    {{ encore_entry_link_tags('admin_app_invoice') }}
+{% endblock %}
+
+{% block javascript_top %}
+    {{ encore_entry_script_tags('admin_app_api_form') }}
+{% endblock %} #}
+
+
+{% block body %}
+
+    {{ form_start(form, {'attr': {'novalidate': 'novalidate'}}) }}
+    {{ form_row(form._token) }}
+    <div class="row">
+        <div class="col-12">
+            <div class="card">
+                <div class="card-body">
+                    {% if row.type is constant('App\\Enum\\Invoice\\InvoiceType::Invoice') %}
+                        <h4 class="header-title">{{ 'invoice.createInvoiceTitle'|dtrans }}</h4>
+                    {% elseif row.type is constant('App\\Enum\\Invoice\\InvoiceType::CreditInvoice') %}
+                        <h4 class="header-title">{{ 'invoice.createCreditTitle'|dtrans }}</h4>
+                    {% elseif row.type is constant('App\\Enum\\Invoice\\InvoiceType::DebitInvoice') %}
+                        <h4 class="header-title">{{ 'invoice.createDebitTitle'|dtrans }}</h4>
+                    {% elseif row.type is constant('App\\Enum\\Invoice\\InvoiceType::ProformaInvoice') %}
+                        <h4 class="header-title">{{ 'invoice.proformaInvoice'|dtrans }}</h4>
+                    {% endif %}
+                    {{ form_btns }}
+                        {% include 'invoice/form_fields.html.twig' with {"form": form, 'row': row} only %}
+                    {{ form_btns }}
+                </div>
+            </div>
+        </div>
+    </div>
+
+    {{ form_end(form, {'render_rest': false}) }}
+    <div class="modal fade" id="apiForm" tabindex="-1" role="dialog" aria-labelledby="apiFormLabel" aria-hidden="true"></div>
+{% endblock %}
+
